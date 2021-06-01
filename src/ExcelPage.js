@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Row, Col, Upload } from "antd";
 import { ExcelRenderer } from "react-excel-renderer";
-
+import Phrase from "./Phrase";
 
 export default class ExcelPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cols: [],
+      showPhrase: false,
       rows: [],
       errorMessage: null,
       columns: [
@@ -26,8 +26,8 @@ export default class ExcelPage extends Component {
         {
           title: "VERB",
           dataIndex: "verb",
-        }
-      ]
+        },
+      ],
     };
   }
 
@@ -39,7 +39,7 @@ export default class ExcelPage extends Component {
     const isExcel =
       file[0].type === "application/vnd.ms-excel" ||
       file[0].type ===
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     if (!isExcel) {
       errorMessage = "You can only upload Excel file!";
     }
@@ -57,7 +57,7 @@ export default class ExcelPage extends Component {
     let fileObj = fileList;
     if (!fileObj) {
       this.setState({
-        errorMessage: "No file uploaded!"
+        errorMessage: "No file uploaded!",
       });
       return false;
     }
@@ -66,11 +66,11 @@ export default class ExcelPage extends Component {
       !(
         fileObj.type === "application/vnd.ms-excel" ||
         fileObj.type ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       )
     ) {
       this.setState({
-        errorMessage: "Unknown file format. Only Excel files are uploaded!"
+        errorMessage: "Unknown file format. Only Excel files are uploaded!",
       });
       return false;
     }
@@ -79,6 +79,7 @@ export default class ExcelPage extends Component {
       if (err) {
         console.log(err);
       } else {
+        console.log(resp)
         const newRows = resp.rows.slice(1).filter((row, index) => {
           if (row.length !== 0) {
             return {
@@ -86,20 +87,19 @@ export default class ExcelPage extends Component {
               place: row[0],
               adjective: row[1],
               noun: row[2],
-              verb: row[3]
+              verb: row[3],
             };
           }
         });
         if (newRows.length === 0) {
           this.setState({
-            errorMessage: "No data found in file!"
+            errorMessage: "No data found in file!",
           });
           return false;
         } else {
           this.setState({
-            cols: resp.cols,
             rows: newRows,
-            errorMessage: null
+            errorMessage: null,
           });
         }
       }
@@ -107,10 +107,23 @@ export default class ExcelPage extends Component {
     return false;
   };
 
+  renderPlayButton() {
+    return (
+      <>
+        <button onClick={() => this.setState({ showPhrase: true })}>
+          Load random roulette
+        </button>
+        <button onClick={() => this.setState({ showPhrase: true })}>
+          Create random phrase
+        </button>
+      </>
+    );
+  }
+
   render() {
     return (
       <>
-        <h1>Importing Excel Component</h1>
+        <h1>Get Random Phrases</h1>
         <Row gutter={16}>
           <Col span={8}>
             <a
@@ -127,13 +140,13 @@ export default class ExcelPage extends Component {
           <Upload
             name="file"
             beforeUpload={this.fileHandler}
-            onRemove={() => this.setState({ rows: [], cols: [] })}
+            onRemove={() => this.setState({ rows: [] })}
             multiple={false}
           >
-            <button>
-              Click to Upload Excel File
-            </button>
+            <button>Click to Upload Excel File</button>
           </Upload>
+          {this.state.rows.length !== 0 ? this.renderPlayButton() : null}
+          {this.state.showPhrase ? <Phrase rows={this.state.rows} /> : null}
         </div>
       </>
     );
