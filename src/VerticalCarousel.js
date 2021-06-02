@@ -126,7 +126,7 @@ class VerticalCarousel extends React.Component {
         <NavigationButtons>
           <NavBtn
             id={this.props.id + "_up"}
-            // style={{ display: "none" }}
+            style={{ display: "none" }}
             onClick={() => this.moveSlide(1)}
           >
             &#8593;

@@ -39,7 +39,7 @@ export default class Example extends Component {
             offsetRadius={this.state.offsetRadius}
             showNavigation={this.state.showNavigation}
             animationConfig={this.state.config}
-            id="adjective"
+            id="adjectives"
           />
         </div>
         <div
@@ -52,7 +52,7 @@ export default class Example extends Component {
             offsetRadius={this.state.offsetRadius}
             showNavigation={this.state.showNavigation}
             animationConfig={this.state.config}
-            id="noun"
+            id="nouns"
           />
         </div>
         <div
@@ -65,7 +65,7 @@ export default class Example extends Component {
             offsetRadius={this.state.offsetRadius}
             showNavigation={this.state.showNavigation}
             animationConfig={this.state.config}
-            id="verb"
+            id="verbs"
           />
         </div>
       </div>

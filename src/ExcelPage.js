@@ -97,10 +97,23 @@ export default class ExcelPage extends Component {
   }
 
   generateRandomPhrase() {
-    const randomNumber = Math.floor(Math.random() * 120) + 60;
+    const randomInterval = Math.floor(Math.random() * 120) + 60;
+    const randomArrow = Math.floor(Math.random() * 2) + 1;
+
     const interval = setInterval(() => {
-      document.getElementById("places_up").click();
-    }, randomNumber);
+      if (randomArrow === 1) {
+        document.getElementById("places_up").click();
+        document.getElementById("adjectives_down").click();
+        document.getElementById("nouns_up").click();
+        document.getElementById("verbs_down").click();
+      } else if (randomArrow === 2) {
+        document.getElementById("places_down").click();
+        document.getElementById("adjectives_up").click();
+        document.getElementById("nouns_down").click();
+        document.getElementById("verbs_up").click();
+      }
+    }, randomInterval);
+
     setTimeout(() => {
       clearInterval(interval);
     }, 1000);
