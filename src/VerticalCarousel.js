@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import Slide from "./Slide";
 import PropTypes from "prop-types";
@@ -9,24 +9,29 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
+  -webkit-box-shadow: 0px 0px 20px 5px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 20px 5px rgba(0,0,0,0.3);
+}
+
+
 `;
 
 const NavigationButtons = styled.div`
   position: relative;
-  display: flex
-  height: 60px;
+  display: flex;
   margin: 0 auto;
   width: 20%;
-  margin-top: 1rem;
+  margin-top: 2rem;
   justify-content: space-between;
   z-index: 1000;
 `;
 
 const NavBtn = styled.div`
-  background: white;
-  padding: 15px;
+  background: floralwhite;
+  padding: 5px;
   margin-bottom: 10px;
-  border-radius: 3px;
+  border-radius: 8px;
+  cursor: pointer;
 `;
 
 function mod(a, b) {
@@ -39,23 +44,14 @@ class VerticalCarousel extends React.Component {
     goToSlide: null,
     prevPropsGoToSlide: 0,
     newSlide: false,
-    slides: [
-      {
-        key: 1,
-        content: "1",
-      },
-      {
-        key: 2,
-        content: "2",
-      },
-    ],
+    slides: [{ key: "", content: "" }],
   };
 
   componentDidMount() {
-    const newPrueba = this.props.content.map((word, index) => {
+    const slidesContent = this.props.content.map((word, index) => {
       return { key: index + 1, content: word };
     });
-    this.setState({slides: newPrueba});
+    this.setState({ slides: slidesContent });
   }
 
   static propTypes = {
@@ -124,16 +120,11 @@ class VerticalCarousel extends React.Component {
     if (showNavigation) {
       navigationButtons = (
         <NavigationButtons>
-          <NavBtn
-            id={this.props.id + "_up"}
-            style={{ display: "none" }}
-            onClick={() => this.moveSlide(1)}
-          >
+          <NavBtn id={this.props.id + "_up"} onClick={() => this.moveSlide(1)}>
             &#8593;
           </NavBtn>
           <NavBtn
             id={this.props.id + "_down"}
-            style={{ display: "none" }}
             onClick={() => this.moveSlide(-1)}
           >
             &#8595;

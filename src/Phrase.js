@@ -1,7 +1,17 @@
 import React, { Component } from "react";
 import VerticalCarousel from "./VerticalCarousel";
-// import uuidv4 from "uuid";
+import styled from "@emotion/styled";
 import { config } from "react-spring";
+
+const Roulette = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 500px;
+  border: 3px solid black;
+  margin: 75px;
+  -webkit-box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.3);
+`;
 
 export default class Example extends Component {
   state = {
@@ -13,9 +23,7 @@ export default class Example extends Component {
 
   render() {
     return (
-      <div
-        style={{ display: "flex", justifyContent: "center", height: "500px" }}
-      >
+      <Roulette>
         <div
           style={{
             width: "100%",
@@ -68,7 +76,7 @@ export default class Example extends Component {
             id="verbs"
           />
         </div>
-      </div>
+      </Roulette>
     );
   }
 }

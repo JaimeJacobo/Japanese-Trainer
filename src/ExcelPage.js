@@ -83,39 +83,61 @@ export default class ExcelPage extends Component {
     return false;
   };
 
-  renderPlayButton() {
+  renderRoulette() {
     return (
       <>
-        <button onClick={() => this.setState({ showPhrase: true })}>
-          Load random roulette
-        </button>
         <button onClick={this.generateRandomPhrase}>
           Create random phrase
         </button>
+        <Phrase content={this.state.content} />
       </>
     );
   }
 
   generateRandomPhrase() {
-    const randomInterval = Math.floor(Math.random() * 120) + 60;
+    const intervalDurations = [];
+    for (let i = 1; i < 5; i++) {
+      intervalDurations.push(Math.floor(Math.random() * (180 - 140 + 1)) + 140);
+    }
     const randomArrow = Math.floor(Math.random() * 2) + 1;
 
-    const interval = setInterval(() => {
+    const placesInterval = setInterval(() => {
       if (randomArrow === 1) {
         document.getElementById("places_up").click();
-        document.getElementById("adjectives_down").click();
-        document.getElementById("nouns_up").click();
-        document.getElementById("verbs_down").click();
       } else if (randomArrow === 2) {
         document.getElementById("places_down").click();
+      }
+    }, intervalDurations[0]);
+
+    const adjectivesInterval = setInterval(() => {
+      if (randomArrow === 1) {
+        document.getElementById("adjectives_down").click();
+      } else if (randomArrow === 2) {
         document.getElementById("adjectives_up").click();
+      }
+    }, intervalDurations[1]);
+
+    const nounsInterval = setInterval(() => {
+      if (randomArrow === 1) {
+        document.getElementById("nouns_up").click();
+      } else if (randomArrow === 2) {
         document.getElementById("nouns_down").click();
+      }
+    }, intervalDurations[2]);
+
+    const verbsInterval = setInterval(() => {
+      if (randomArrow === 1) {
+        document.getElementById("verbs_down").click();
+      } else if (randomArrow === 2) {
         document.getElementById("verbs_up").click();
       }
-    }, randomInterval);
+    }, intervalDurations[3]);
 
     setTimeout(() => {
-      clearInterval(interval);
+      clearInterval(placesInterval);
+      clearInterval(adjectivesInterval);
+      clearInterval(nounsInterval);
+      clearInterval(verbsInterval);
     }, 1000);
   }
 
@@ -154,11 +176,8 @@ export default class ExcelPage extends Component {
             <button>Click to Upload Excel File</button>
           </Upload>
           {this.state.content.places.length !== 0
-            ? this.renderPlayButton()
+            ? this.renderRoulette()
             : null}
-          {this.state.showPhrase ? (
-            <Phrase content={this.state.content} />
-          ) : null}
         </div>
       </>
     );
