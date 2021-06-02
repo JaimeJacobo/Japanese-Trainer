@@ -39,7 +39,24 @@ class VerticalCarousel extends React.Component {
     goToSlide: null,
     prevPropsGoToSlide: 0,
     newSlide: false,
+    slides: [
+      {
+        key: 1,
+        content: "1",
+      },
+      {
+        key: 2,
+        content: "2",
+      },
+    ],
   };
+
+  componentDidMount() {
+    const newPrueba = this.props.content.map((word, index) => {
+      return { key: index + 1, content: word };
+    });
+    this.setState({slides: newPrueba});
+  }
 
   static propTypes = {
     slides: PropTypes.arrayOf(
@@ -60,7 +77,7 @@ class VerticalCarousel extends React.Component {
   };
 
   modBySlidesLength = (index) => {
-    return mod(index, this.props.slides.length);
+    return mod(index, this.state.slides.length);
   };
 
   moveSlide = (direction) => {
@@ -71,8 +88,8 @@ class VerticalCarousel extends React.Component {
   };
 
   clampOffsetRadius(offsetRadius) {
-    const { slides } = this.props;
-    const upperBound = Math.floor((slides.length - 1) / 2);
+    // const { slides } = this.props;
+    const upperBound = Math.floor((this.state.slides.length - 1) / 2);
 
     if (offsetRadius < 0) {
       return 0;
@@ -85,14 +102,16 @@ class VerticalCarousel extends React.Component {
   }
 
   getPresentableSlides() {
-    const { slides } = this.props;
+    // const { slides } = this.props;
     const { index } = this.state;
     let { offsetRadius } = this.props;
     offsetRadius = this.clampOffsetRadius(offsetRadius);
     const presentableSlides = [];
 
     for (let i = -offsetRadius; i < 1 + offsetRadius; i++) {
-      presentableSlides.push(slides[this.modBySlidesLength(index + i)]);
+      presentableSlides.push(
+        this.state.slides[this.modBySlidesLength(index + i)]
+      );
     }
 
     return presentableSlides;
@@ -106,14 +125,14 @@ class VerticalCarousel extends React.Component {
       navigationButtons = (
         <NavigationButtons>
           <NavBtn
-            id={this.props.id + '_up'}
-            style={{ display: "none" }}
+            id={this.props.id + "_up"}
+            // style={{ display: "none" }}
             onClick={() => this.moveSlide(1)}
           >
             &#8593;
           </NavBtn>
           <NavBtn
-            id={this.props.id + '_down'}
+            id={this.props.id + "_down"}
             style={{ display: "none" }}
             onClick={() => this.moveSlide(-1)}
           >

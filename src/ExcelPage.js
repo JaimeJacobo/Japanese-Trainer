@@ -7,27 +7,14 @@ export default class ExcelPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      content: {
+        places: [],
+        adjectives: [],
+        nouns: [],
+        verbs: [],
+      },
       showPhrase: false,
-      rows: [],
       errorMessage: null,
-      columns: [
-        {
-          title: "PLACE",
-          dataIndex: "place",
-        },
-        {
-          title: "ADJECTIVE",
-          dataIndex: "adjective",
-        },
-        {
-          title: "NOUN",
-          dataIndex: "noun",
-        },
-        {
-          title: "VERB",
-          dataIndex: "verb",
-        },
-      ],
     };
   }
 
@@ -79,29 +66,18 @@ export default class ExcelPage extends Component {
       if (err) {
         console.log(err);
       } else {
-        console.log(resp)
-        const newRows = resp.rows.slice(1).filter((row, index) => {
-          if (row.length !== 0) {
-            return {
-              key: index,
-              place: row[0],
-              adjective: row[1],
-              noun: row[2],
-              verb: row[3],
-            };
-          }
+        console.log(resp);
+        const content = { places: [], adjectives: [], nouns: [], verbs: [] };
+        const cleanedRows = resp.rows.filter((row) => {
+          return row.length > 0;
         });
-        if (newRows.length === 0) {
-          this.setState({
-            errorMessage: "No data found in file!",
-          });
-          return false;
-        } else {
-          this.setState({
-            rows: newRows,
-            errorMessage: null,
-          });
-        }
+        cleanedRows.forEach((row) => {
+          content.places.push(row[0]);
+          content.adjectives.push(row[1]);
+          content.nouns.push(row[2]);
+          content.verbs.push(row[3]);
+        });
+        this.setState({ content });
       }
     });
     return false;
@@ -113,11 +89,20 @@ export default class ExcelPage extends Component {
         <button onClick={() => this.setState({ showPhrase: true })}>
           Load random roulette
         </button>
-        <button onClick={() => this.setState({ showPhrase: true })}>
+        <button onClick={this.generateRandomPhrase}>
           Create random phrase
         </button>
       </>
     );
+  }
+
+  generateRandomPhrase() {
+    const randomNumber = Math.floor(Math.random() * 10);
+    for (let i = 0; i < randomNumber; i++) {
+      setTimeout(() => {
+        document.getElementById("places_up").click();
+      }, 2000);
+    }
   }
 
   render() {
@@ -140,13 +125,26 @@ export default class ExcelPage extends Component {
           <Upload
             name="file"
             beforeUpload={this.fileHandler}
-            onRemove={() => this.setState({ rows: [] })}
+            onRemove={() =>
+              this.setState({
+                content: {
+                  places: [],
+                  adjectives: [],
+                  nouns: [],
+                  verbs: [],
+                },
+              })
+            }
             multiple={false}
           >
             <button>Click to Upload Excel File</button>
           </Upload>
-          {this.state.rows.length !== 0 ? this.renderPlayButton() : null}
-          {this.state.showPhrase ? <Phrase rows={this.state.rows} /> : null}
+          {this.state.content.places.length !== 0
+            ? this.renderPlayButton()
+            : null}
+          {this.state.showPhrase ? (
+            <Phrase content={this.state.content} />
+          ) : null}
         </div>
       </>
     );
