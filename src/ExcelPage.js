@@ -97,12 +97,13 @@ export default class ExcelPage extends Component {
   }
 
   generateRandomPhrase() {
-    const randomNumber = Math.floor(Math.random() * 10);
-    for (let i = 0; i < randomNumber; i++) {
-      setTimeout(() => {
-        document.getElementById("places_up").click();
-      }, 2000);
-    }
+    const randomNumber = Math.floor(Math.random() * 120) + 60;
+    const interval = setInterval(() => {
+      document.getElementById("places_up").click();
+    }, randomNumber);
+    setTimeout(() => {
+      clearInterval(interval);
+    }, 1000);
   }
 
   render() {
