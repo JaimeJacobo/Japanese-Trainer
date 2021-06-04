@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Spring, animated } from "react-spring/renderprops";
+import { Spring } from "react-spring/renderprops";
 import { withGesture } from "react-with-gesture";
 
 const SlideContainer = styled.div`

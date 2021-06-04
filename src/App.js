@@ -1,6 +1,4 @@
-
-import './App.css';
-import ExcelPage from './ExcelPage'
+import ExcelPage from "./ExcelPage";
 
 function App() {
   return (

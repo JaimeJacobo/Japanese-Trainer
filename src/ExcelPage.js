@@ -1,7 +1,50 @@
 import React, { Component } from "react";
-import { Row, Col, Upload } from "antd";
+import { Upload } from "antd";
 import { ExcelRenderer } from "react-excel-renderer";
 import Phrase from "./Phrase";
+import styled from "@emotion/styled";
+import { findByLabelText } from "@testing-library/dom";
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 240px;
+`;
+
+const LinksContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: space-around;
+`;
+
+const RandomButton = styled.button`
+  margin: 0 auto;
+  margin-top: 10px;
+  display: flex;
+  border: 2px solid gray;
+  color: white;
+  background-color: rgb(12, 134, 104);
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
+const UploadButton = styled.button`
+  border: 2px solid gray;
+  color: white;
+  background-color: rgb(0, 100, 150);
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 10px 0;
+`;
 
 export default class ExcelPage extends Component {
   constructor(props) {
@@ -30,17 +73,16 @@ export default class ExcelPage extends Component {
     if (!isExcel) {
       errorMessage = "You can only upload Excel file!";
     }
-    // console.log("file", file[0].type);
+
     const isLt2M = file[0].size / 1024 / 1024 < 2;
     if (!isLt2M) {
       errorMessage = "File must be smaller than 2MB!";
     }
-    // console.log("errorMessage", errorMessage);
+
     return errorMessage;
   }
 
   fileHandler = (fileList) => {
-    // console.log("fileList", fileList);
     let fileObj = fileList;
     if (!fileObj) {
       this.setState({
@@ -48,7 +90,7 @@ export default class ExcelPage extends Component {
       });
       return false;
     }
-    // console.log("fileObj.type:", fileObj.type);
+
     if (
       !(
         fileObj.type === "application/vnd.ms-excel" ||
@@ -61,22 +103,27 @@ export default class ExcelPage extends Component {
       });
       return false;
     }
-    //just pass the fileObj as parameter
+
     ExcelRenderer(fileObj, (err, resp) => {
       if (err) {
         console.log(err);
       } else {
         console.log(resp);
         const content = { places: [], adjectives: [], nouns: [], verbs: [] };
-        const cleanedRows = resp.rows.filter((row) => {
-          return row.length > 0;
-        });
+
+        const cleanedRows = resp.rows
+          .slice(1, resp.rows.length)
+          .filter((row) => {
+            return row.length > 0;
+          });
+
         cleanedRows.forEach((row) => {
           content.places.push(row[0]);
           content.adjectives.push(row[1]);
           content.nouns.push(row[2]);
           content.verbs.push(row[3]);
         });
+
         this.setState({ content });
       }
     });
@@ -86,9 +133,9 @@ export default class ExcelPage extends Component {
   renderRoulette() {
     return (
       <>
-        <button onClick={this.generateRandomPhrase}>
+        <RandomButton onClick={this.generateRandomPhrase}>
           Create random phrase
-        </button>
+        </RandomButton>
         <Phrase content={this.state.content} />
       </>
     );
@@ -144,41 +191,64 @@ export default class ExcelPage extends Component {
   render() {
     return (
       <>
-        <h1>Get Random Phrases</h1>
-        <Row gutter={16}>
-          <Col span={8}>
-            <a
-              href="https://res.cloudinary.com/bryta/raw/upload/v1562751445/Sample_Excel_Sheet_muxx6s.xlsx"
-              target="_blank"
-              rel="noopener noreferrer"
-              download
+        <MainContainer>
+          <h1>Japanese Random Generator</h1>
+          <LinksContainer>
+            <div>
+              <a
+                href="https://res.cloudinary.com/dxhk9k9z4/raw/upload/v1622744522/words_example_without-kanjis_ex_pihq8h.xlsx"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+              >
+                Download sample excel (without Kanjis)
+              </a>
+            </div>
+            <div>
+              <a
+                href="https://res.cloudinary.com/dxhk9k9z4/raw/upload/v1622740765/words_example_kanjis_ex_ulrwyo.xlsx"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+              >
+                Download sample excel (with Kanjis)
+              </a>
+            </div>
+            <div>
+              <a
+                href="https://res.cloudinary.com/dxhk9k9z4/raw/upload/v1622811998/words_template_jyrqxs.xlsx"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+              >
+                Download template
+              </a>
+            </div>
+          </LinksContainer>
+          <div style={{ textAlign: "center" }}>
+            <Upload
+              name="file"
+              beforeUpload={this.fileHandler}
+              onRemove={() =>
+                this.setState({
+                  content: {
+                    places: [],
+                    adjectives: [],
+                    nouns: [],
+                    verbs: [],
+                  },
+                })
+              }
+              multiple={false}
             >
-              Sample excel sheet
-            </a>
-          </Col>
-        </Row>
-        <div>
-          <Upload
-            name="file"
-            beforeUpload={this.fileHandler}
-            onRemove={() =>
-              this.setState({
-                content: {
-                  places: [],
-                  adjectives: [],
-                  nouns: [],
-                  verbs: [],
-                },
-              })
-            }
-            multiple={false}
-          >
-            <button>Click to Upload Excel File</button>
-          </Upload>
-          {this.state.content.places.length !== 0
-            ? this.renderRoulette()
-            : null}
-        </div>
+              {this.state.content.places.length === 0 ? (
+                <UploadButton>Click to Upload Excel File</UploadButton>
+              ) : null}
+            </Upload>
+          </div>
+        </MainContainer>
+
+        {this.state.content.places.length !== 0 ? this.renderRoulette() : null}
       </>
     );
   }
