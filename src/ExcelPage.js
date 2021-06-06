@@ -17,6 +17,12 @@ const LinksContainer = styled.div`
   flex-direction: column;
   height: 100px;
   justify-content: space-around;
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 10px 10px 23px -4px rgba(0, 0, 0, 0.22);
+  -webkit-box-shadow: 10px 10px 23px -4px rgba(0, 0, 0, 0.22);
+  -moz-box-shadow: 10px 10px 23px -4px rgba(0, 0, 0, 0.22);
 `
 
 const RandomButton = styled.button`
