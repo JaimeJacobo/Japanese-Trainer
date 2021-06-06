@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import VerticalCarousel from "./VerticalCarousel";
-import styled from "@emotion/styled";
-import { config } from "react-spring";
+import React, { Component } from 'react'
+import VerticalCarousel from './VerticalCarousel'
+import styled from '@emotion/styled'
+import { config } from 'react-spring'
 
 const Roulette = styled.div`
   display: flex;
@@ -12,22 +12,22 @@ const Roulette = styled.div`
   margin: 50px 75px 75px 75px;
   -webkit-box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.3);
   box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.3);
-`;
+`
 
 export default class Example extends Component {
   state = {
     goToSlide: 0,
     offsetRadius: 2,
     showNavigation: true,
-    config: config.gentle,
-  };
+    config: config.gentle
+  }
 
   render() {
     return (
       <Roulette>
         <div
           style={{
-            width: "100%",
+            width: '100%'
           }}
         >
           <VerticalCarousel
@@ -41,7 +41,7 @@ export default class Example extends Component {
         </div>
         <div
           style={{
-            width: "100%",
+            width: '100%'
           }}
         >
           <VerticalCarousel
@@ -55,7 +55,7 @@ export default class Example extends Component {
         </div>
         <div
           style={{
-            width: "100%",
+            width: '100%'
           }}
         >
           <VerticalCarousel
@@ -69,7 +69,7 @@ export default class Example extends Component {
         </div>
         <div
           style={{
-            width: "100%",
+            width: '100%'
           }}
         >
           <VerticalCarousel
@@ -82,6 +82,6 @@ export default class Example extends Component {
           />
         </div>
       </Roulette>
-    );
+    )
   }
 }
