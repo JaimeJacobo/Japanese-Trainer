@@ -214,7 +214,7 @@ export default class ExcelPage extends Component {
               <ListContainerTitle>Rules:</ListContainerTitle>
               <li>
                 The file <span style={{ fontWeight: 'bold' }}>needs</span> to
-                have 4 columns.
+                have 4 columns of content.
               </li>
               <li>You can only upload Excel files.</li>
               <li>
