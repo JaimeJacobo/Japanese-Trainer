@@ -257,7 +257,7 @@ export default class ExcelPage extends Component {
             <div>
               <p>Download Excel's empty template for the game here:</p>
               <a
-                href="https://res.cloudinary.com/dxhk9k9z4/raw/upload/v1623101138/japanese_game_example_table_fa6qoq.xlsx"
+                href="https://res.cloudinary.com/dxhk9k9z4/raw/upload/v1623101138/japanese_game_template_asblto.xlsx"
                 target="_blank"
                 rel="noopener noreferrer"
                 download
