@@ -236,28 +236,28 @@ export default class ExcelPage extends Component {
           <LinksContainer>
             <div>
               <a
-                href="https://res.cloudinary.com/dxhk9k9z4/raw/upload/v1622744522/words_example_without-kanjis_ex_pihq8h.xlsx"
+                href="https://res.cloudinary.com/dxhk9k9z4/raw/upload/v1623101138/japanese_game_example_wokanjis_table_etrqhz.xlsx"
                 target="_blank"
                 rel="noopener noreferrer"
                 download
               >
-                Download sample excel (without Kanjis)
+                Download filled sample (without Kanjis)
               </a>
             </div>
             <div>
               <a
-                href="https://res.cloudinary.com/dxhk9k9z4/raw/upload/v1622740765/words_example_kanjis_ex_ulrwyo.xlsx"
+                href="https://res.cloudinary.com/dxhk9k9z4/raw/upload/v1623101138/japanese_game_example_table_fa6qoq.xlsx"
                 target="_blank"
                 rel="noopener noreferrer"
                 download
               >
-                Download sample excel (with Kanjis)
+                Download filled sample (with Kanjis)
               </a>
             </div>
             <div>
               <p>Download Excel's empty template for the game here:</p>
               <a
-                href="https://res.cloudinary.com/dxhk9k9z4/raw/upload/v1622811998/words_template_jyrqxs.xlsx"
+                href="https://res.cloudinary.com/dxhk9k9z4/raw/upload/v1623101138/japanese_game_example_table_fa6qoq.xlsx"
                 target="_blank"
                 rel="noopener noreferrer"
                 download
